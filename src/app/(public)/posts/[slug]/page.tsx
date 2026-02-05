@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { MDXContent } from "@/components/mdx-content";
+import { ShareButtons } from "@/components/share-buttons";
 import { Metadata } from "next";
 
 export const dynamic = 'force-dynamic';
@@ -96,9 +97,11 @@ export default async function PostPage({ params }: PageProps) {
                 </div>
             )}
 
-            <div className="prose prose-xl dark:prose-invert max-w-none text-foreground prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-li:text-foreground">
+            <div className="prose prose-lg dark:prose-invert max-w-none text-foreground prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-li:text-foreground">
                 <MDXContent content={post.content || ""} />
             </div>
+
+            <ShareButtons />
 
             <div className="mt-10 pt-10 border-t flex gap-2 flex-wrap justify-center">
                 {post.postTags?.map((pt: any) => (

@@ -1,13 +1,16 @@
 import { db } from "@/db";
-import { posts, usersProfile } from "@/db/schema";
-import { desc, eq } from "drizzle-orm";
+import { posts, usersProfile, categories } from "@/db/schema";
+import { desc, eq, asc } from "drizzle-orm";
 import { PostCard } from "@/components/post-card";
+import { Badge } from "@/components/ui/badge";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default async function Home() {
   let latestPosts: any[] = [];
+  let allCategories: any[] = [];
+
   try {
       latestPosts = await db.query.posts.findMany({
         where: (posts, { eq }) => eq(posts.status, "published"),
@@ -22,8 +25,12 @@ export default async function Home() {
             }
         }
       });
+
+      allCategories = await db.query.categories.findMany({
+        orderBy: [asc(categories.name)]
+      });
   } catch (error) {
-      console.error("Failed to fetch posts:", error);
+      console.error("Failed to fetch data:", error);
       // In a real build without DB access, this allows the build to pass but renders empty
   }
 
@@ -39,6 +46,16 @@ export default async function Home() {
           </p>
         </div>
       </section>
+
+      {allCategories.length > 0 && (
+        <section className="container py-4 flex flex-wrap gap-2 justify-center mb-8">
+            {allCategories.map((cat) => (
+                <Badge key={cat.id} variant="secondary" className="text-sm py-1 px-3">
+                    {cat.name}
+                </Badge>
+            ))}
+        </section>
+      )}
 
       {latestPosts.length > 0 ? (
         <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

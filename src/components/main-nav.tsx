@@ -14,9 +14,7 @@ export function MainNav() {
       <div className="container flex h-14 max-w-screen-2xl items-center px-4">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <span className="hidden font-bold sm:inline-block">
-              RETUMBA
-            </span>
+            <img src="/images/logo.jpg" alt="Retumba" className="h-10 w-auto rounded-full" />
           </Link>
           <nav className="flex items-center gap-4 text-sm font-medium xl:gap-6">
             <Link
