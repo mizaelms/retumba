@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
+import { VinylBackground } from "@/components/vinyl-background";
+
 export default async function Home() {
   let latestPosts: any[] = [];
   let allCategories: any[] = [];
@@ -35,7 +37,8 @@ export default async function Home() {
   }
 
   return (
-    <main className="container mx-auto py-8 md:py-12 px-4">
+    <main className="container mx-auto py-8 md:py-12 px-4 relative">
+      <VinylBackground />
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
         <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center mx-auto">
           <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
