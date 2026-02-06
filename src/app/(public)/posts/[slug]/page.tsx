@@ -67,7 +67,7 @@ export default async function PostPage({ params }: PageProps) {
     }
 
     return (
-        <article className="container max-w-3xl py-12 px-4 font-retro">
+        <article className="container mx-auto max-w-3xl py-12 px-4 font-retro">
             <div className="space-y-4 text-center mb-10">
                 <div className="flex justify-center gap-2 flex-wrap">
                     {post.postCategories?.map((pc: any) => (
@@ -76,7 +76,7 @@ export default async function PostPage({ params }: PageProps) {
                         </Badge>
                     ))}
                 </div>
-                <h1 className="text-4xl font-bold tracking-tight lg:text-5xl">{post.title}</h1>
+                <h1 className="text-3xl font-bold tracking-tight lg:text-4xl">{post.title}</h1>
                 <div className="flex items-center justify-center gap-4 text-muted-foreground">
                     <div className="flex items-center gap-2">
                         <Avatar className="h-8 w-8">
@@ -97,7 +97,7 @@ export default async function PostPage({ params }: PageProps) {
                 </div>
             )}
 
-            <div className="prose prose-lg dark:prose-invert max-w-none text-foreground prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-li:text-foreground">
+            <div className="prose prose-lg dark:prose-invert max-w-none text-foreground prose-headings:text-foreground prose-p:text-foreground prose-strong:text-primary prose-li:text-foreground">
                 <MDXContent content={post.content || ""} />
             </div>
 
