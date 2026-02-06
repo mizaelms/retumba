@@ -60,9 +60,9 @@ export async function middleware(request: NextRequest) {
   // Protect /writer routes
   if (path.startsWith("/writer")) {
     if (!user) {
-        const url = request.nextUrl.clone();
-        url.pathname = "/login";
-        return NextResponse.redirect(url);
+      const url = request.nextUrl.clone();
+      url.pathname = "/login";
+      return NextResponse.redirect(url);
     }
     const { data: profile } = await supabase
       .from("users_profile")
@@ -71,9 +71,9 @@ export async function middleware(request: NextRequest) {
       .single();
 
     if (profile?.role !== "ADMIN" && profile?.role !== "WRITER") {
-        const url = request.nextUrl.clone();
-        url.pathname = "/";
-        return NextResponse.redirect(url);
+      const url = request.nextUrl.clone();
+      url.pathname = "/";
+      return NextResponse.redirect(url);
     }
   }
 
