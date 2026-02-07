@@ -5,13 +5,13 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -20,6 +20,7 @@ import { createPost, updatePost } from "@/app/actions/posts"
 import { uploadImage } from "@/app/actions/upload"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import { TagInput } from "@/components/tag-input"
 
 interface PostFormProps {
     post?: any; // strict type ideally
@@ -27,10 +28,11 @@ interface PostFormProps {
     tags: { id: number; name: string }[];
 }
 
-export function PostForm({ post, categories, tags }: PostFormProps) {
+export function PostForm({ post, categories, tags: initialTags }: PostFormProps) {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [uploading, setUploading] = useState(false)
+    const [availableTags, setAvailableTags] = useState(initialTags)
 
     const form = useForm<z.infer<typeof postSchema>>({
         resolver: zodResolver(postSchema),
@@ -95,9 +97,9 @@ export function PostForm({ post, categories, tags }: PostFormProps) {
                                 <Input placeholder="Title" {...field} onChange={e => {
                                     field.onChange(e)
                                     if (!post && !form.getValues('slug')) {
-                                         form.setValue('slug', e.target.value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''))
+                                        form.setValue('slug', e.target.value.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''))
                                     }
-                                }}/>
+                                }} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -149,7 +151,7 @@ export function PostForm({ post, categories, tags }: PostFormProps) {
                     )}
                 />
 
-                 <FormField
+                <FormField
                     control={form.control}
                     name="cover_image_url"
                     render={({ field }) => (
@@ -167,13 +169,13 @@ export function PostForm({ post, categories, tags }: PostFormProps) {
                     )}
                 />
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <FormItem>
-                         <FormLabel>Categories</FormLabel>
-                         <div className="border p-4 rounded-md h-[150px] overflow-y-auto space-y-2">
-                             {categories.map(cat => (
-                                 <div key={cat.id} className="flex items-center space-x-2">
-                                     <input
+                        <FormLabel>Categories</FormLabel>
+                        <div className="border p-4 rounded-md h-[250px] overflow-y-auto space-y-2">
+                            {categories.map(cat => (
+                                <div key={cat.id} className="flex items-center space-x-2">
+                                    <input
                                         type="checkbox"
                                         value={cat.id}
                                         checked={form.watch('category_ids')?.includes(cat.id)}
@@ -186,35 +188,25 @@ export function PostForm({ post, categories, tags }: PostFormProps) {
                                             }
                                         }}
                                         className="h-4 w-4 rounded border-input bg-background"
-                                     />
-                                     <span className="text-sm">{cat.name}</span>
-                                 </div>
-                             ))}
-                         </div>
+                                    />
+                                    <span className="text-sm">{cat.name}</span>
+                                </div>
+                            ))}
+                        </div>
                     </FormItem>
+
                     <FormItem>
-                         <FormLabel>Tags</FormLabel>
-                         <div className="border p-4 rounded-md h-[150px] overflow-y-auto space-y-2">
-                             {tags.map(tag => (
-                                 <div key={tag.id} className="flex items-center space-x-2">
-                                     <input
-                                        type="checkbox"
-                                        value={tag.id}
-                                        checked={form.watch('tag_ids')?.includes(tag.id)}
-                                        onChange={e => {
-                                            const current = form.getValues('tag_ids') || []
-                                            if (e.target.checked) {
-                                                form.setValue('tag_ids', [...current, tag.id])
-                                            } else {
-                                                form.setValue('tag_ids', current.filter(id => id !== tag.id))
-                                            }
-                                        }}
-                                        className="h-4 w-4 rounded border-input bg-background"
-                                     />
-                                     <span className="text-sm">{tag.name}</span>
-                                 </div>
-                             ))}
-                         </div>
+                        <FormLabel>Tags</FormLabel>
+                        <div className="border p-4 rounded-md min-h-[250px]">
+                            <TagInput
+                                availableTags={availableTags}
+                                selectedTagIds={form.watch('tag_ids') || []}
+                                onTagsChange={(ids) => form.setValue('tag_ids', ids)}
+                                onTagCreated={(newTag: any) => {
+                                    setAvailableTags([...availableTags, newTag])
+                                }}
+                            />
+                        </div>
                     </FormItem>
                 </div>
 

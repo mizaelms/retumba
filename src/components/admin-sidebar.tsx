@@ -4,7 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { FileText, Users, LayoutDashboard, LogOut } from "lucide-react"
+import { FileText, Users, LayoutDashboard, LogOut, Folder, Tag } from "lucide-react"
 
 export function AdminSidebar() {
     const pathname = usePathname()
@@ -14,6 +14,16 @@ export function AdminSidebar() {
             title: "Posts",
             href: "/admin/posts",
             icon: FileText
+        },
+        {
+            title: "Categories",
+            href: "/admin/categories",
+            icon: Folder
+        },
+        {
+            title: "Tags",
+            href: "/admin/tags",
+            icon: Tag
         },
         {
             title: "Users",
@@ -42,12 +52,12 @@ export function AdminSidebar() {
                 })}
             </nav>
             <div className="mt-auto">
-                 <form action="/auth/signout" method="post">
+                <form action="/auth/signout" method="post">
                     <Button variant="ghost" className="w-full justify-start text-muted-foreground hover:text-destructive">
-                         <LogOut className="mr-2 h-4 w-4" />
-                         Sign Out
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Sign Out
                     </Button>
-                 </form>
+                </form>
             </div>
         </aside>
     )

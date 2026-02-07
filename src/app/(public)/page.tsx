@@ -45,7 +45,7 @@ export default async function Home() {
             Retumba Music Blog
           </h1>
           <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-            Dark Rock | Goth | Industrial | Post-Punk | Metal Alternativo
+            Reseñas, entrevistas, recomendaciones. Registramos el ruido más actual y las novedades de este mundo.
           </p>
         </div>
       </section>
